@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         if (status== PackageManager.PERMISSION_GRANTED){
 
             smsservice()
+            phonecall()
         }else{
 
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS),11)
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
 
             smsservice()
+            phonecall()
         }else{
 
             Toast.makeText(this,"You can't send SMS without permission",Toast.LENGTH_LONG).show()
@@ -70,6 +73,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+    }
+
+    fun phonecall(){
+
+        call.setOnClickListener({
+            var i = Intent( )
+            i.action = Intent.ACTION_CALL
+            i.data = Uri.parse("tel:${et1.text.toString()}")
+            startActivity(i)
+
+        })
 
     }
 }
