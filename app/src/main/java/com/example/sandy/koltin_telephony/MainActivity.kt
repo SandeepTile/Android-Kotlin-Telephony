@@ -1,7 +1,10 @@
 package com.example.sandy.koltin_telephony
 
 import android.Manifest
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.PendingIntent
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -25,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
             smsservice()
             phonecall()
+            mailservices()
         }else{
 
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS),11)
@@ -41,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
             smsservice()
             phonecall()
+            mailservices()
         }else{
 
             Toast.makeText(this,"You can't send SMS without permission",Toast.LENGTH_LONG).show()
@@ -83,6 +88,39 @@ class MainActivity : AppCompatActivity() {
             i.action = Intent.ACTION_CALL
             i.data = Uri.parse("tel:${et1.text.toString()}")
             startActivity(i)
+
+        })
+
+    }
+
+    fun mailservices(){
+
+        attach.setOnClickListener({
+
+            var adialog=AlertDialog.Builder(this@MainActivity)
+            adialog.setIcon(R.drawable.ic_exclamation_alert_sign_on_reminder_daily_calendar_page)
+            adialog.setTitle("Message")
+            adialog.setMessage("Please select an option")
+            adialog.setNegativeButton("Camera",object:DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    var i = Intent("android.media.action.IMAGE_CAPTURE")
+                    startActivityForResult(i,123)
+                }
+
+
+            })
+
+            adialog.setPositiveButton("Files",object:DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                    var i=Intent()
+                    i.action=Intent.ACTION_GET_CONTENT
+                    i.type="*/*"
+                    startActivityForResult(i,124)
+                }
+
+            })
+            adialog.show()
 
         })
 
