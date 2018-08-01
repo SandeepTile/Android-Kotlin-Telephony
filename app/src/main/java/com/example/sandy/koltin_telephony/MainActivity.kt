@@ -131,9 +131,17 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+        smail.setOnClickListener({
 
-
-
+            var i = Intent( )
+            i.action = Intent.ACTION_SEND
+            i.putExtra(Intent.EXTRA_EMAIL, arrayOf(mailto.text.toString()))
+            i.putExtra(Intent.EXTRA_SUBJECT, mailSubject.text.toString())
+            i.putExtra(Intent.EXTRA_TEXT,mailtext.text.toString())
+            i.putExtra(Intent.EXTRA_STREAM,uri)
+            i.type = "message/rfc822"
+            startActivity(i)
+        })
 
     }
 
