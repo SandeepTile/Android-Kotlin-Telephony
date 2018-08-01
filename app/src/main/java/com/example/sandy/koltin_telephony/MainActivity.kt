@@ -1,22 +1,29 @@
 package com.example.sandy.koltin_telephony
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.PendingIntent
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.telephony.SmsManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.ByteArrayOutputStream
 
 class MainActivity : AppCompatActivity() {
+    var uri:Uri? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,5 +131,32 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+
+
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode==123&&requestCode==Activity.RESULT_OK){
+
+            var bmp = data!!.extras.get("data") as Bitmap
+            uri = getImageUri(this@MainActivity, bmp)
+
+        }else if (requestCode==124&&requestCode==Activity.RESULT_OK){
+
+
+            uri = data!!.data
+
+        }
+    }
+
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null)
+        return Uri.parse(path)
     }
 }
