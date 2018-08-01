@@ -56,9 +56,9 @@
         android:id="@+id/mailtext"
         android:hint="Enter Text"/>
     <Button
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/ic_email"
+        android:background="@drawable/ic_icon"
         android:layout_gravity="center"
         android:id="@+id/attach"/>
 

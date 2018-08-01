@@ -29,16 +29,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var status=ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS)
+        var sendsms=ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS)
+        var callphone=ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE)
+        var readwrite=ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)
+        var internet=ContextCompat.checkSelfPermission(this,Manifest.permission.INTERNET)
 
-        if (status== PackageManager.PERMISSION_GRANTED){
+        if (sendsms== PackageManager.PERMISSION_GRANTED&&callphone== PackageManager.PERMISSION_GRANTED&&
+                readwrite== PackageManager.PERMISSION_GRANTED&&internet== PackageManager.PERMISSION_GRANTED){
 
             smsservice()
             phonecall()
             mailservices()
         }else{
 
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS),11)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS,Manifest.permission.CALL_PHONE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.INTERNET),11)
 
         }
 
@@ -48,7 +53,10 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
+        if (grantResults[0]==PackageManager.PERMISSION_GRANTED&&
+                grantResults[1]==PackageManager.PERMISSION_GRANTED &&
+                grantResults[2]== PackageManager.PERMISSION_GRANTED &&
+                grantResults[3]== PackageManager.PERMISSION_GRANTED){
 
             smsservice()
             phonecall()
@@ -102,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
     fun mailservices(){
 
-        attach.setOnClickListener({
+        attach.setOnClickListener {
 
             var adialog=AlertDialog.Builder(this@MainActivity)
             adialog.setIcon(R.drawable.ic_exclamation_alert_sign_on_reminder_daily_calendar_page)
@@ -129,9 +137,9 @@ class MainActivity : AppCompatActivity() {
             })
             adialog.show()
 
-        })
+        }
 
-        smail.setOnClickListener({
+        smail.setOnClickListener {
 
             var i = Intent( )
             i.action = Intent.ACTION_SEND
@@ -141,7 +149,7 @@ class MainActivity : AppCompatActivity() {
             i.putExtra(Intent.EXTRA_STREAM,uri)
             i.type = "message/rfc822"
             startActivity(i)
-        })
+        }
 
     }
 
